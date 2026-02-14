@@ -1,0 +1,1767 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Dein persönlicher Djerba Reisebegleiter - Offline-Guide, Budget-Tracker, Taxi-Rechner und mehr!">
+    <meta name="theme-color" content="#0EA5E9">
+    <title>Djerba Buddy 🏝️ - Dein Urlaubs-Assistent</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiRGplcmJhIEJ1ZGR5Iiwic2hvcnRfbmFtZSI6IkRqZXJiYSIsInN0YXJ0X3VybCI6Ii8iLCJkaXNwbGF5Ijoic3RhbmRhbG9uZSIsImJhY2tncm91bmRfY29sb3IiOiIjRkZGRkZGIiwidGhlbWVfY29sb3IiOiIjMEVBNUU5IiwiaWNvbnMiOlt7InNyYyI6ImRhdGE6aW1hZ2Uvc3ZnK3htbCwlM0NzdmclMjB4bWxucyUzRCdodHRwJTNBJTJGJTJGd3d3LnczLm9yZyUyRjIwMDAlMkZzdmcnJTIwdmlld0JveCUzRCcwJTIwMCUyMDEwMCUyMDEwMCclM0UlM0NyZWN0JTIwZmlsbCUzRCclMjMwRUE1RTknJTIwd2lkdGglM0QnMTAwJyUyMGhlaWdodCUzRCcxMDAnJTJGJTNFJTNDdGV4dCUyMHglM0QnNTAlMjUnJTIweSUzRCc1MCUyNSclMjBmb250LXNpemUlM0QnNTAnJTIwdGV4dC1hbmNob3IlM0QnbWlkZGxlJyUyMGR5JTNEJy4zZW0nJTNFJUYwJTlGJThGJTlEJUYwJTlGJThGJTk2JTNDJTJGdGV4dCUzRSUzQyUyRnN2ZyUzRSIsInNpemVzIjoiNTEyeDUxMiIsInR5cGUiOiJpbWFnZS9zdmcreG1sIn1dfQ==">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Caveat:wght@600;700&display=swap');
+        
+        :root {
+            --ocean: #0EA5E9;
+            --ocean-dark: #0284C7;
+            --sand: #F59E0B;
+            --sand-light: #FDE68A;
+            --sunset: #F97316;
+            --palm: #10B981;
+            --bg: #F8FAFC;
+            --card: #FFFFFF;
+            --text: #1E293B;
+            --text-light: #64748B;
+            --border: #E2E8F0;
+            --danger: #EF4444;
+            --success: #10B981;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #E0F2FE 0%, #FEF3C7 100%);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* Decorative wave background */
+        body::before {
+            content: '';
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 300px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%230EA5E9' fill-opacity='0.1' d='M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,154.7C960,171,1056,181,1152,165.3C1248,149,1344,107,1392,85.3L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E") no-repeat bottom;
+            background-size: cover;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 16px;
+            position: relative;
+            z-index: 1;
+            padding-bottom: 80px;
+        }
+        
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--ocean) 0%, var(--ocean-dark) 100%);
+            border-radius: 24px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '🏝️';
+            position: absolute;
+            font-size: 120px;
+            opacity: 0.15;
+            right: -20px;
+            top: -20px;
+            transform: rotate(15deg);
+        }
+        
+        .header h1 {
+            font-family: 'Caveat', cursive;
+            color: white;
+            font-size: 2.5em;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            position: relative;
+        }
+        
+        .header .subtitle {
+            color: rgba(255,255,255,0.9);
+            font-size: 0.9em;
+            margin-top: 4px;
+        }
+        
+        /* Tab Navigation */
+        .tabs {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-bottom: 24px;
+            background: white;
+            padding: 12px;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+        }
+        
+        .tab {
+            background: transparent;
+            border: none;
+            padding: 12px 8px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 0.75em;
+            font-weight: 600;
+            color: var(--text-light);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .tab-icon {
+            font-size: 1.8em;
+        }
+        
+        .tab.active {
+            background: linear-gradient(135deg, var(--ocean), var(--ocean-dark));
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        .tab:not(.active):hover {
+            background: var(--bg);
+        }
+        
+        /* Content Sections */
+        .section {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Card Component */
+        .card {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--border);
+        }
+        
+        .card-icon {
+            font-size: 2em;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--ocean), var(--ocean-dark));
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .card-title {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: var(--text);
+        }
+        
+        /* Attraction Cards */
+        .attraction {
+            cursor: pointer;
+            border-left: 4px solid var(--ocean);
+        }
+        
+        .attraction-meta {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin: 12px 0;
+            font-size: 0.9em;
+        }
+        
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            color: var(--text-light);
+        }
+        
+        .kid-rating {
+            display: inline-flex;
+            gap: 2px;
+            font-size: 1.2em;
+        }
+        
+        .tip {
+            background: linear-gradient(135deg, #FEF3C7, #FDE68A);
+            border-left: 4px solid var(--sand);
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 12px;
+            font-size: 0.9em;
+        }
+        
+        .tip-icon {
+            font-size: 1.2em;
+            margin-right: 6px;
+        }
+        
+        /* Taxi Calculator */
+        .input-group {
+            margin-bottom: 16px;
+        }
+        
+        .label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+        
+        select, input[type="number"], input[type="text"], input[type="date"] {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-size: 1em;
+            font-family: 'Outfit', sans-serif;
+            transition: all 0.3s ease;
+        }
+        
+        select:focus, input:focus {
+            outline: none;
+            border-color: var(--ocean);
+            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+        }
+        
+        .price-display {
+            background: linear-gradient(135deg, var(--ocean), var(--ocean-dark));
+            color: white;
+            padding: 24px;
+            border-radius: 16px;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .price-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+            margin-bottom: 8px;
+        }
+        
+        .price-amount {
+            font-size: 2.5em;
+            font-weight: 800;
+            font-family: 'Caveat', cursive;
+        }
+        
+        .price-euro {
+            font-size: 1em;
+            opacity: 0.8;
+            margin-top: 4px;
+        }
+        
+        /* Budget Tracker */
+        .budget-summary {
+            background: linear-gradient(135deg, #10B981, #059669);
+            color: white;
+            padding: 24px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .budget-amount {
+            font-size: 2.5em;
+            font-weight: 800;
+            font-family: 'Caveat', cursive;
+            margin: 8px 0;
+        }
+        
+        .budget-bar {
+            background: rgba(255,255,255,0.3);
+            height: 16px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 12px 0;
+        }
+        
+        .budget-bar-fill {
+            height: 100%;
+            background: white;
+            transition: width 0.5s ease;
+            border-radius: 8px;
+        }
+        
+        .budget-status {
+            font-size: 1.2em;
+            margin-top: 8px;
+        }
+        
+        .expense-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .expense-item:last-child {
+            border-bottom: none;
+        }
+        
+        .expense-category {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .category-icon {
+            font-size: 1.5em;
+        }
+        
+        .expense-amount {
+            font-weight: 700;
+            font-size: 1.1em;
+            color: var(--danger);
+        }
+        
+        /* Button */
+        .btn {
+            background: linear-gradient(135deg, var(--ocean), var(--ocean-dark));
+            color: white;
+            border: none;
+            padding: 16px 24px;
+            border-radius: 12px;
+            font-size: 1em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+            width: 100%;
+            margin-top: 12px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn-delete {
+            background: linear-gradient(135deg, var(--danger), #DC2626);
+            padding: 8px 16px;
+            width: auto;
+            margin: 0;
+            font-size: 0.9em;
+        }
+        
+        /* Packing List */
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px;
+            border-bottom: 1px solid var(--border);
+            transition: background 0.2s ease;
+        }
+        
+        .checklist-item:hover {
+            background: var(--bg);
+        }
+        
+        .checklist-item input[type="checkbox"] {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            accent-color: var(--ocean);
+        }
+        
+        .checklist-item.checked {
+            opacity: 0.6;
+        }
+        
+        .checklist-item.checked .item-text {
+            text-decoration: line-through;
+        }
+        
+        .item-text {
+            flex: 1;
+            font-size: 1em;
+        }
+        
+        /* Emergency */
+        .emergency-number {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px;
+            background: var(--bg);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            border-left: 4px solid var(--danger);
+        }
+        
+        .number-info {
+            flex: 1;
+        }
+        
+        .number-label {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .number-value {
+            color: var(--ocean);
+            font-size: 1.2em;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .call-btn {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-size: 1.2em;
+            cursor: pointer;
+        }
+        
+        /* Achievements */
+        .achievement {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            background: var(--bg);
+            border-radius: 12px;
+            margin-bottom: 12px;
+        }
+        
+        .achievement.unlocked {
+            background: linear-gradient(135deg, #FEF3C7, #FDE68A);
+            border: 2px solid var(--sand);
+        }
+        
+        .achievement.locked {
+            opacity: 0.5;
+        }
+        
+        .achievement-icon {
+            font-size: 3em;
+            filter: grayscale(1);
+        }
+        
+        .achievement.unlocked .achievement-icon {
+            filter: grayscale(0);
+            animation: bounce 0.5s ease;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .achievement-info {
+            flex: 1;
+        }
+        
+        .achievement-title {
+            font-weight: 700;
+            font-size: 1.1em;
+            margin-bottom: 4px;
+        }
+        
+        .achievement-desc {
+            font-size: 0.9em;
+            color: var(--text-light);
+        }
+        
+        /* Phrases */
+        .phrase {
+            background: var(--bg);
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+        }
+        
+        .phrase-de {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+        
+        .phrase-translation {
+            color: var(--ocean);
+            font-size: 1.1em;
+            margin: 6px 0;
+            font-weight: 600;
+        }
+        
+        .phrase-phonetic {
+            color: var(--text-light);
+            font-style: italic;
+            font-size: 0.9em;
+        }
+        
+        /* Install prompt */
+        .install-prompt {
+            position: fixed;
+            bottom: 80px;
+            left: 16px;
+            right: 16px;
+            background: white;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: var(--shadow-lg);
+            z-index: 1000;
+            display: none;
+            animation: slideUp 0.4s ease;
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(100px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .install-prompt.show {
+            display: block;
+        }
+        
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            padding: 16px;
+        }
+        
+        .modal.show {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 24px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            animation: scaleIn 0.3s ease;
+        }
+        
+        @keyframes scaleIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        
+        .modal-close {
+            float: right;
+            font-size: 2em;
+            cursor: pointer;
+            color: var(--text-light);
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 480px) {
+            .tabs {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 6px;
+                padding: 8px;
+            }
+            
+            .tab {
+                padding: 8px 4px;
+                font-size: 0.7em;
+            }
+            
+            .tab-icon {
+                font-size: 1.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>Djerba Buddy 🏝️</h1>
+            <div class="subtitle">Dein persönlicher Urlaubs-Assistent</div>
+        </div>
+        
+        <!-- Navigation Tabs -->
+        <div class="tabs">
+            <button class="tab active" data-tab="attractions">
+                <div class="tab-icon">🗺️</div>
+                <div>Ausflüge</div>
+            </button>
+            <button class="tab" data-tab="taxi">
+                <div class="tab-icon">🚕</div>
+                <div>Taxi</div>
+            </button>
+            <button class="tab" data-tab="budget">
+                <div class="tab-icon">💰</div>
+                <div>Budget</div>
+            </button>
+            <button class="tab" data-tab="packing">
+                <div class="tab-icon">🎒</div>
+                <div>Packen</div>
+            </button>
+            <button class="tab" data-tab="planner">
+                <div class="tab-icon">📅</div>
+                <div>Planer</div>
+            </button>
+            <button class="tab" data-tab="phrases">
+                <div class="tab-icon">💬</div>
+                <div>Sprache</div>
+            </button>
+            <button class="tab" data-tab="emergency">
+                <div class="tab-icon">🆘</div>
+                <div>Notfall</div>
+            </button>
+            <button class="tab" data-tab="achievements">
+                <div class="tab-icon">🏆</div>
+                <div>Erfolge</div>
+            </button>
+        </div>
+        
+        <!-- Attractions Section -->
+        <div id="attractions" class="section active">
+            <div class="card attraction" onclick="showAttractionDetails('explore')">
+                <div class="card-header">
+                    <div class="card-icon">🐊</div>
+                    <div class="card-title">Djerba Explore Park</div>
+                </div>
+                <div class="attraction-meta">
+                    <div class="meta-item">📍 4 km</div>
+                    <div class="meta-item">⏱️ 9-18 Uhr</div>
+                    <div class="meta-item">💰 15 TND</div>
+                    <div class="meta-item">
+                        <span class="kid-rating">👶👶👶👶</span>
+                    </div>
+                </div>
+                <p>Krokodilfarm mit Fütterungsshow, Museum & tunesisches Dorf - DER Hit für Kinder!</p>
+                <div class="tip">
+                    <span class="tip-icon">💡</span>
+                    Fütterung um 15 Uhr - Dein Kind wird noch Monate davon erzählen!
+                </div>
+            </div>
+            
+            <div class="card attraction" onclick="showAttractionDetails('erriadh')">
+                <div class="card-header">
+                    <div class="card-icon">🎨</div>
+                    <div class="card-title">Djerbahood / Erriadh</div>
+                </div>
+                <div class="attraction-meta">
+                    <div class="meta-item">📍 25 km</div>
+                    <div class="meta-item">⏱️ Immer offen</div>
+                    <div class="meta-item">💰 Kostenlos!</div>
+                    <div class="meta-item">
+                        <span class="kid-rating">👶👶👶</span>
+                    </div>
+                </div>
+                <p>250+ bunte Street-Art Wandgemälde im ganzen Dorf - Schatzsuche für Kinder!</p>
+                <div class="tip">
+                    <span class="tip-icon">💡</span>
+                    Viele interaktive Kunstwerke als perfekte Fotokulisse!
+                </div>
+            </div>
+            
+            <div class="card attraction" onclick="showAttractionDetails('beach')">
+                <div class="card-header">
+                    <div class="card-icon">🏖️</div>
+                    <div class="card-title">Strand Sidi Mahrez</div>
+                </div>
+                <div class="attraction-meta">
+                    <div class="meta-item">📍 Nah am Hotel</div>
+                    <div class="meta-item">⏱️ 24/7</div>
+                    <div class="meta-item">💰 Kostenlos</div>
+                    <div class="meta-item">
+                        <span class="kid-rating">👶👶👶👶</span>
+                    </div>
+                </div>
+                <p>10km langer, flacher Sandstrand mit ruhigem Wasser - perfekt für 4-Jährige!</p>
+                <div class="tip">
+                    <span class="tip-icon">💡</span>
+                    Kamelritte am Strand: 15-30 TND (~5-10€)
+                </div>
+            </div>
+            
+            <div class="card attraction" onclick="showAttractionDetails('market')">
+                <div class="card-header">
+                    <div class="card-icon">🛍️</div>
+                    <div class="card-title">Houmt Souk Markt</div>
+                </div>
+                <div class="attraction-meta">
+                    <div class="meta-item">📍 20 km</div>
+                    <div class="meta-item">⏱️ 8-20 Uhr</div>
+                    <div class="meta-item">💰 Handeln!</div>
+                    <div class="meta-item">
+                        <span class="kid-rating">👶👶👶</span>
+                    </div>
+                </div>
+                <p>Bunter Markt mit Handwerksvorführungen & Fisch-Auktion morgens</p>
+                <div class="tip">
+                    <span class="tip-icon">💡</span>
+                    Max. 30% des ersten Preises zahlen - Handeln gehört dazu!
+                </div>
+            </div>
+            
+            <div class="card attraction" onclick="showAttractionDetails('pirate')">
+                <div class="card-header">
+                    <div class="card-icon">🏴‍☠️</div>
+                    <div class="card-title">Piraten-Bootsfahrt</div>
+                </div>
+                <div class="attraction-meta">
+                    <div class="meta-item">📍 Vom Hafen</div>
+                    <div class="meta-item">⏱️ 6 Stunden</div>
+                    <div class="meta-item">💰 30-40 TND</div>
+                    <div class="meta-item">
+                        <span class="kid-rating">👶👶👶👶</span>
+                    </div>
+                </div>
+                <p>Piraten mit Akrobatik, Musik, Insel-Stop & Mittagessen inklusive!</p>
+                <div class="tip">
+                    <span class="tip-icon">💡</span>
+                    Sehr familienfreundlich - Kinder lieben die Show!
+                </div>
+            </div>
+        </div>
+        
+        <!-- Taxi Calculator Section -->
+        <div id="taxi" class="section">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">🚕</div>
+                    <div class="card-title">Taxi-Rechner</div>
+                </div>
+                
+                <div class="input-group">
+                    <label class="label">Von:</label>
+                    <select id="taxiFrom">
+                        <option value="0">Royal Karthago Hotel</option>
+                    </select>
+                </div>
+                
+                <div class="input-group">
+                    <label class="label">Nach:</label>
+                    <select id="taxiTo" onchange="calculateTaxi()">
+                        <option value="">Ziel wählen...</option>
+                        <option value="4">Djerba Explore (4 km)</option>
+                        <option value="6">Midoun Stadt (6 km)</option>
+                        <option value="20">Houmt Souk (20 km)</option>
+                        <option value="20">Guellala (20 km)</option>
+                        <option value="25">Erriadh / Street Art (25 km)</option>
+                        <option value="2">Strand Sidi Mahrez (2 km)</option>
+                    </select>
+                </div>
+                
+                <div class="input-group">
+                    <label class="label">Tageszeit:</label>
+                    <select id="timeOfDay" onchange="calculateTaxi()">
+                        <option value="day">Tag (bis 21 Uhr)</option>
+                        <option value="night">Nacht (ab 21 Uhr, +50%)</option>
+                    </select>
+                </div>
+                
+                <div class="price-display" id="taxiResult" style="display:none;">
+                    <div class="price-label">Geschätzter Preis:</div>
+                    <div class="price-amount" id="taxiPrice">-</div>
+                    <div class="price-euro" id="taxiEuro">-</div>
+                </div>
+                
+                <div class="tip" style="margin-top: 20px;">
+                    <span class="tip-icon">💡</span>
+                    <strong>Wichtig:</strong> Taxameter VOR Fahrtbeginn einschalten lassen! 
+                    Grundgebühr: 0,90 TND
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">💬</div>
+                    <div class="card-title">Taxi-Phrasen</div>
+                </div>
+                
+                <div class="phrase">
+                    <div class="phrase-de">🇩🇪 "Wie viel kostet das?"</div>
+                    <div class="phrase-translation">🇫🇷 Combien ça coûte?</div>
+                    <div class="phrase-phonetic">Aussprache: kom-bjäng sa kuht</div>
+                </div>
+                
+                <div class="phrase">
+                    <div class="phrase-de">🇩🇪 "Das ist zu teuer"</div>
+                    <div class="phrase-translation">🇫🇷 C'est trop cher</div>
+                    <div class="phrase-phonetic">Aussprache: ßä tro schär</div>
+                </div>
+                
+                <div class="phrase">
+                    <div class="phrase-de">🇩🇪 "Bitte Taxameter einschalten"</div>
+                    <div class="phrase-translation">🇫🇷 Mettez le compteur, s'il vous plaît</div>
+                    <div class="phrase-phonetic">Aussprache: mätte lö kongtör sil wu plä</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Budget Tracker Section -->
+        <div id="budget" class="section">
+            <div class="budget-summary">
+                <div>💰 Noch verfügbar:</div>
+                <div class="budget-amount" id="remainingBudget">500€</div>
+                <div class="budget-bar">
+                    <div class="budget-bar-fill" id="budgetBarFill" style="width: 100%"></div>
+                </div>
+                <div class="budget-status" id="budgetStatus">😎 LÄUFT! Locker noch Ausflüge drin!</div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">➕</div>
+                    <div class="card-title">Ausgabe hinzufügen</div>
+                </div>
+                
+                <div class="input-group">
+                    <label class="label">Kategorie:</label>
+                    <select id="expenseCategory">
+                        <option value="🍽️">🍽️ Essen außerhalb</option>
+                        <option value="🎟️">🎟️ Ausflüge</option>
+                        <option value="🚕">🚕 Taxis</option>
+                        <option value="🛍️">🛍️ Souvenirs</option>
+                        <option value="👶">👶 Kinderaktivitäten</option>
+                        <option value="🎁">🎁 Sonstiges</option>
+                    </select>
+                </div>
+                
+                <div class="input-group">
+                    <label class="label">Betrag (€):</label>
+                    <input type="number" id="expenseAmount" placeholder="z.B. 25" min="0" step="0.5">
+                </div>
+                
+                <div class="input-group">
+                    <label class="label">Beschreibung (optional):</label>
+                    <input type="text" id="expenseDesc" placeholder="z.B. Djerba Explore Eintritt">
+                </div>
+                
+                <button class="btn" onclick="addExpense()">💰 Ausgabe eintragen</button>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">📊</div>
+                    <div class="card-title">Ausgaben-Übersicht</div>
+                </div>
+                <div id="expensesList">
+                    <p style="text-align: center; color: var(--text-light); padding: 20px;">
+                        Noch keine Ausgaben eingetragen 🎉
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Packing List Section -->
+        <div id="packing" class="section">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">👕</div>
+                    <div class="card-title">Kleidung</div>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" onchange="saveChecklist()">
+                    <div class="item-text">Leichte, luftige Kleidung (32-35°C!)</div>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" onchange="saveChecklist()">
+                    <div class="item-text">Badekleidung (2-3 Sets)</div>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" onchange="saveChecklist()">
+                    <div class="item-text">Flip-Flops & bequeme Schuhe</div>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" onchange="saveChecklist()">
+                    <div class="item-text">Sonnenhut / Cap</div>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" onchange="saveChecklist()">
+                    <div class="item-text">Leichte Jacke für Abends</div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">🧴</div>
+                    <div class="card-title">Sonnenschutz & Hygiene</div>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" onchange="saveChecklist()">
+                    <div class="item-text">Sonnencreme SPF 50+ (WICHTIG!)</div>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" onchange="saveChecklist()">
+                    <div class="item-text">After-Sun Lotion</div>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" onchange="saveChecklist()">
+                    <div class="item-text">Zahnbürste & Zahnpasta</div>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" onchange="saveChecklist()">
+                    <div class="item-text">Shampoo & Duschgel</div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">👶</div>
+                    <div class="card-title">Für euer Kind (4 Jahre)</div>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" onchange="saveChecklist()">
+                    <div class="item-text">Schwimmhilfen / Schwimmflügel</div>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" onchange="saveChecklist()">
+                    <div class="item-text">Sonnenhut mit Nackenschutz</div>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" onchange="saveChecklist()">
+                    <div class="item-text">Sandspielzeug</div>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" onchange="saveChecklist()">
+                    <div class="item-text">Lieblingskuscheltier</div>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" onchange="saveChecklist()">
+                    <div class="item-text">Snacks für den Flug</div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">📱</div>
+                    <div class="card-title">Technik & Dokumente</div>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" onchange="saveChecklist()">
+                    <div class="item-text">Reisepass / Personalausweis</div>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" onchange="saveChecklist()">
+                    <div class="item-text">Flugtickets & Hotelbuchung</div>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" onchange="saveChecklist()">
+                    <div class="item-text">Handy-Ladegeräte</div>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" onchange="saveChecklist()">
+                    <div class="item-text">Powerbank</div>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" onchange="saveChecklist()">
+                    <div class="item-text">Kamera</div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">💊</div>
+                    <div class="card-title">Reiseapotheke</div>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" onchange="saveChecklist()">
+                    <div class="item-text">Schmerzmittel (Ibuprofen, Paracetamol)</div>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" onchange="saveChecklist()">
+                    <div class="item-text">Durchfallmittel</div>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" onchange="saveChecklist()">
+                    <div class="item-text">Pflaster & Verbandszeug</div>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" onchange="saveChecklist()">
+                    <div class="item-text">Insektenschutz</div>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" onchange="saveChecklist()">
+                    <div class="item-text">Persönliche Medikamente</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Planner Section -->
+        <div id="planner" class="section">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">📅</div>
+                    <div class="card-title">Aktivität planen</div>
+                </div>
+                
+                <div class="input-group">
+                    <label class="label">Datum:</label>
+                    <input type="date" id="planDate" min="2026-07-11" max="2026-07-25">
+                </div>
+                
+                <div class="input-group">
+                    <label class="label">Aktivität:</label>
+                    <input type="text" id="planActivity" placeholder="z.B. Djerba Explore besuchen">
+                </div>
+                
+                <div class="input-group">
+                    <label class="label">Uhrzeit (optional):</label>
+                    <input type="text" id="planTime" placeholder="z.B. 10:00 Uhr">
+                </div>
+                
+                <button class="btn" onclick="addPlan()">📅 Hinzufügen</button>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">🗓️</div>
+                    <div class="card-title">Dein Urlaubsplan</div>
+                </div>
+                <div id="plansList">
+                    <p style="text-align: center; color: var(--text-light); padding: 20px;">
+                        Noch keine Aktivitäten geplant 🌴
+                    </p>
+                </div>
+            </div>
+            
+            <div class="tip">
+                <span class="tip-icon">🌡️</span>
+                <strong>Wetter-Tipp:</strong> Im Juli 32-35°C! Ausflüge am besten morgens oder abends planen.
+            </div>
+        </div>
+        
+        <!-- Phrases Section -->
+        <div id="phrases" class="section">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">🍽️</div>
+                    <div class="card-title">Restaurant</div>
+                </div>
+                
+                <div class="phrase">
+                    <div class="phrase-de">🇩🇪 Die Rechnung, bitte</div>
+                    <div class="phrase-translation">🇫🇷 L'addition, s'il vous plaît</div>
+                    <div class="phrase-phonetic">la-di-ßjong sil wu plä</div>
+                </div>
+                
+                <div class="phrase">
+                    <div class="phrase-de">🇩🇪 Kindermenü?</div>
+                    <div class="phrase-translation">🇫🇷 Menu pour enfant?</div>
+                    <div class="phrase-phonetic">mö-nü pur ong-fong</div>
+                </div>
+                
+                <div class="phrase">
+                    <div class="phrase-de">🇩🇪 Ohne Koriander, bitte</div>
+                    <div class="phrase-translation">🇫🇷 Sans coriandre, s'il vous plaît</div>
+                    <div class="phrase-phonetic">song ko-ri-ongdr sil wu plä</div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">🛍️</div>
+                    <div class="card-title">Einkaufen / Handeln</div>
+                </div>
+                
+                <div class="phrase">
+                    <div class="phrase-de">🇩🇪 Wie viel kostet das?</div>
+                    <div class="phrase-translation">🇫🇷 Combien ça coûte?</div>
+                    <div class="phrase-phonetic">kom-bjäng sa kuht</div>
+                </div>
+                
+                <div class="phrase">
+                    <div class="phrase-de">🇩🇪 Das ist zu teuer</div>
+                    <div class="phrase-translation">🇫🇷 C'est trop cher</div>
+                    <div class="phrase-phonetic">ßä tro schär</div>
+                </div>
+                
+                <div class="phrase">
+                    <div class="phrase-de">🇩🇪 Letzter Preis?</div>
+                    <div class="phrase-translation">🇫🇷 Dernier prix?</div>
+                    <div class="phrase-phonetic">där-njä pri</div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">💬</div>
+                    <div class="card-title">Allgemein</div>
+                </div>
+                
+                <div class="phrase">
+                    <div class="phrase-de">🇩🇪 Guten Tag</div>
+                    <div class="phrase-translation">🇫🇷 Bonjour / 🇹🇳 Salam</div>
+                    <div class="phrase-phonetic">bong-schur / sa-lam</div>
+                </div>
+                
+                <div class="phrase">
+                    <div class="phrase-de">🇩🇪 Danke</div>
+                    <div class="phrase-translation">🇫🇷 Merci / 🇹🇳 Shukran</div>
+                    <div class="phrase-phonetic">mär-ßi / schuk-ran</div>
+                </div>
+                
+                <div class="phrase">
+                    <div class="phrase-de">🇩🇪 Ja / Nein</div>
+                    <div class="phrase-translation">🇫🇷 Oui / Non</div>
+                    <div class="phrase-phonetic">wi / nong</div>
+                </div>
+                
+                <div class="phrase">
+                    <div class="phrase-de">🇩🇪 Sprechen Sie Deutsch/Englisch?</div>
+                    <div class="phrase-translation">🇫🇷 Parlez-vous allemand/anglais?</div>
+                    <div class="phrase-phonetic">par-le-wu al-mong/ong-glä</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Emergency Section -->
+        <div id="emergency" class="section">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">🚨</div>
+                    <div class="card-title">Notfallnummern</div>
+                </div>
+                
+                <div class="emergency-number">
+                    <div class="number-info">
+                        <div class="number-label">🚑 Notarzt</div>
+                        <div class="number-value">190</div>
+                    </div>
+                    <a href="tel:190" class="call-btn">📞</a>
+                </div>
+                
+                <div class="emergency-number">
+                    <div class="number-info">
+                        <div class="number-label">🚓 Polizei</div>
+                        <div class="number-value">197</div>
+                    </div>
+                    <a href="tel:197" class="call-btn">📞</a>
+                </div>
+                
+                <div class="emergency-number">
+                    <div class="number-info">
+                        <div class="number-label">🇩🇪 Deutsche Botschaft Tunis</div>
+                        <div class="number-value">+216 71 143 900</div>
+                    </div>
+                    <a href="tel:+21671143900" class="call-btn">📞</a>
+                </div>
+                
+                <div class="emergency-number">
+                    <div class="number-info">
+                        <div class="number-label">🏥 Krankenhaus (6 km)</div>
+                        <div class="number-value">In Taxi zu "Hôpital" fahren</div>
+                    </div>
+                </div>
+                
+                <div class="emergency-number">
+                    <div class="number-info">
+                        <div class="number-label">🏨 Royal Karthago Hotel</div>
+                        <div class="number-value">An Rezeption wenden</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tip">
+                <span class="tip-icon">⚠️</span>
+                <strong>Wichtig:</strong> Diese App funktioniert offline! Alle Infos sind immer verfügbar.
+            </div>
+        </div>
+        
+        <!-- Achievements Section -->
+        <div id="achievements" class="section">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">🏆</div>
+                    <div class="card-title">Deine Erfolge</div>
+                </div>
+                
+                <div id="achievementsList">
+                    <!-- Achievements will be populated by JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal for Attraction Details -->
+    <div id="attractionModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal()">&times;</span>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+    
+    <!-- Install Prompt -->
+    <div id="installPrompt" class="install-prompt">
+        <h3>🏝️ App installieren?</h3>
+        <p>Installiere Djerba Buddy auf deinem Homescreen für schnellen Zugriff - auch offline!</p>
+        <button class="btn" onclick="installApp()">📲 Jetzt installieren</button>
+        <button class="btn" style="background: var(--text-light); margin-top: 8px;" onclick="dismissInstall()">Später</button>
+    </div>
+
+    <script>
+        // App State
+        let deferredPrompt;
+        let budget = {
+            total: 500,
+            expenses: []
+        };
+        
+        let achievements = [
+            { id: 'krokodil', icon: '🐊', title: 'Krokodil-Flüsterer', desc: 'Djerba Explore besucht', unlocked: false },
+            { id: 'kamel', icon: '🐪', title: 'Wüsten-Krieger', desc: 'Kamelritt gemacht', unlocked: false },
+            { id: 'handel', icon: '💰', title: 'Handels-Meister', desc: '50% Rabatt beim Markt', unlocked: false },
+            { id: 'sonne', icon: '☀️', title: 'Sonnenkönig', desc: '7 Tage ohne Sonnenbrand', unlocked: false },
+            { id: 'pirat', icon: '🏴‍☠️', title: 'Piraten-Abenteuer', desc: 'Bootsfahrt gemacht', unlocked: false },
+            { id: 'art', icon: '🎨', title: 'Kunst-Entdecker', desc: 'Erriadh besucht', unlocked: false }
+        ];
+        
+        // Load data from localStorage
+        function loadData() {
+            const savedBudget = localStorage.getItem('budget');
+            if (savedBudget) {
+                budget = JSON.parse(savedBudget);
+                updateBudgetDisplay();
+                renderExpenses();
+            }
+            
+            const savedAchievements = localStorage.getItem('achievements');
+            if (savedAchievements) {
+                achievements = JSON.parse(savedAchievements);
+            }
+            renderAchievements();
+            
+            loadChecklist();
+            loadPlans();
+        }
+        
+        // Save data to localStorage
+        function saveData() {
+            localStorage.setItem('budget', JSON.stringify(budget));
+            localStorage.setItem('achievements', JSON.stringify(achievements));
+        }
+        
+        // Tab Navigation
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const targetId = tab.dataset.tab;
+                
+                // Update active tab
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                // Update active section
+                document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+                document.getElementById(targetId).classList.add('active');
+            });
+        });
+        
+        // Taxi Calculator
+        function calculateTaxi() {
+            const distance = parseFloat(document.getElementById('taxiTo').value);
+            const timeOfDay = document.getElementById('timeOfDay').value;
+            
+            if (!distance) {
+                document.getElementById('taxiResult').style.display = 'none';
+                return;
+            }
+            
+            const baseFare = 0.9;
+            const perKm = 1.0;
+            let totalTND = baseFare + (distance * perKm);
+            
+            if (timeOfDay === 'night') {
+                totalTND *= 1.5;
+            }
+            
+            const totalEUR = totalTND / 3.37;
+            
+            document.getElementById('taxiPrice').textContent = Math.round(totalTND) + ' TND';
+            document.getElementById('taxiEuro').textContent = '≈ ' + totalEUR.toFixed(2) + '€';
+            document.getElementById('taxiResult').style.display = 'block';
+        }
+        
+        // Budget Tracker
+        function addExpense() {
+            const category = document.getElementById('expenseCategory').value;
+            const amount = parseFloat(document.getElementById('expenseAmount').value);
+            const desc = document.getElementById('expenseDesc').value;
+            
+            if (!amount || amount <= 0) {
+                alert('Bitte einen gültigen Betrag eingeben!');
+                return;
+            }
+            
+            const expense = {
+                id: Date.now(),
+                category,
+                amount,
+                desc: desc || category.slice(2),
+                date: new Date().toLocaleDateString('de-DE')
+            };
+            
+            budget.expenses.push(expense);
+            saveData();
+            updateBudgetDisplay();
+            renderExpenses();
+            
+            // Clear inputs
+            document.getElementById('expenseAmount').value = '';
+            document.getElementById('expenseDesc').value = '';
+        }
+        
+        function deleteExpense(id) {
+            if (confirm('Ausgabe wirklich löschen?')) {
+                budget.expenses = budget.expenses.filter(e => e.id !== id);
+                saveData();
+                updateBudgetDisplay();
+                renderExpenses();
+            }
+        }
+        
+        function updateBudgetDisplay() {
+            const spent = budget.expenses.reduce((sum, e) => sum + e.amount, 0);
+            const remaining = budget.total - spent;
+            const percentage = (remaining / budget.total) * 100;
+            
+            document.getElementById('remainingBudget').textContent = remaining.toFixed(2) + '€';
+            document.getElementById('budgetBarFill').style.width = percentage + '%';
+            
+            let status = '';
+            if (percentage > 70) {
+                status = '😎 LÄUFT! Locker noch Ausflüge drin!';
+            } else if (percentage > 40) {
+                status = '👍 Gut im Plan!';
+            } else if (percentage > 20) {
+                status = '⚠️ Langsam knapp...';
+            } else {
+                status = '😬 Fast aufgebraucht!';
+            }
+            
+            document.getElementById('budgetStatus').textContent = status;
+        }
+        
+        function renderExpenses() {
+            const list = document.getElementById('expensesList');
+            
+            if (budget.expenses.length === 0) {
+                list.innerHTML = '<p style="text-align: center; color: var(--text-light); padding: 20px;">Noch keine Ausgaben eingetragen 🎉</p>';
+                return;
+            }
+            
+            list.innerHTML = budget.expenses
+                .sort((a, b) => b.id - a.id)
+                .map(e => `
+                    <div class="expense-item">
+                        <div class="expense-category">
+                            <div class="category-icon">${e.category}</div>
+                            <div>
+                                <div style="font-weight: 600;">${e.desc}</div>
+                                <div style="font-size: 0.85em; color: var(--text-light);">${e.date}</div>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <div class="expense-amount">-${e.amount.toFixed(2)}€</div>
+                            <button class="btn-delete" onclick="deleteExpense(${e.id})">🗑️</button>
+                        </div>
+                    </div>
+                `).join('');
+        }
+        
+        // Packing List
+        function saveChecklist() {
+            const items = Array.from(document.querySelectorAll('.checklist-item')).map(item => {
+                return {
+                    checked: item.querySelector('input').checked,
+                    text: item.querySelector('.item-text').textContent
+                };
+            });
+            localStorage.setItem('checklist', JSON.stringify(items));
+            
+            // Update UI
+            document.querySelectorAll('.checklist-item').forEach(item => {
+                if (item.querySelector('input').checked) {
+                    item.classList.add('checked');
+                } else {
+                    item.classList.remove('checked');
+                }
+            });
+        }
+        
+        function loadChecklist() {
+            const saved = localStorage.getItem('checklist');
+            if (saved) {
+                const items = JSON.parse(saved);
+                const checkboxes = document.querySelectorAll('.checklist-item input');
+                items.forEach((item, index) => {
+                    if (checkboxes[index]) {
+                        checkboxes[index].checked = item.checked;
+                        if (item.checked) {
+                            checkboxes[index].closest('.checklist-item').classList.add('checked');
+                        }
+                    }
+                });
+            }
+        }
+        
+        // Planner
+        function addPlan() {
+            const date = document.getElementById('planDate').value;
+            const activity = document.getElementById('planActivity').value;
+            const time = document.getElementById('planTime').value;
+            
+            if (!date || !activity) {
+                alert('Bitte Datum und Aktivität eingeben!');
+                return;
+            }
+            
+            const plans = JSON.parse(localStorage.getItem('plans') || '[]');
+            plans.push({
+                id: Date.now(),
+                date,
+                activity,
+                time
+            });
+            localStorage.setItem('plans', JSON.stringify(plans));
+            
+            document.getElementById('planDate').value = '';
+            document.getElementById('planActivity').value = '';
+            document.getElementById('planTime').value = '';
+            
+            loadPlans();
+        }
+        
+        function loadPlans() {
+            const plans = JSON.parse(localStorage.getItem('plans') || '[]');
+            const list = document.getElementById('plansList');
+            
+            if (plans.length === 0) {
+                list.innerHTML = '<p style="text-align: center; color: var(--text-light); padding: 20px;">Noch keine Aktivitäten geplant 🌴</p>';
+                return;
+            }
+            
+            list.innerHTML = plans
+                .sort((a, b) => new Date(a.date) - new Date(b.date))
+                .map(p => `
+                    <div class="expense-item" style="border-bottom: 1px solid var(--border); padding: 16px 0;">
+                        <div>
+                            <div style="font-weight: 700; margin-bottom: 4px;">${p.activity}</div>
+                            <div style="color: var(--text-light); font-size: 0.9em;">
+                                📅 ${new Date(p.date).toLocaleDateString('de-DE')}
+                                ${p.time ? '⏰ ' + p.time : ''}
+                            </div>
+                        </div>
+                        <button class="btn-delete" onclick="deletePlan(${p.id})">🗑️</button>
+                    </div>
+                `).join('');
+        }
+        
+        function deletePlan(id) {
+            if (confirm('Plan wirklich löschen?')) {
+                let plans = JSON.parse(localStorage.getItem('plans') || '[]');
+                plans = plans.filter(p => p.id !== id);
+                localStorage.setItem('plans', JSON.stringify(plans));
+                loadPlans();
+            }
+        }
+        
+        // Achievements
+        function renderAchievements() {
+            const list = document.getElementById('achievementsList');
+            list.innerHTML = achievements.map(a => `
+                <div class="achievement ${a.unlocked ? 'unlocked' : 'locked'}">
+                    <div class="achievement-icon">${a.icon}</div>
+                    <div class="achievement-info">
+                        <div class="achievement-title">${a.title}</div>
+                        <div class="achievement-desc">${a.desc}</div>
+                    </div>
+                    ${!a.unlocked ? `<button class="btn" style="width: auto; padding: 8px 16px; margin: 0;" onclick="unlockAchievement('${a.id}')">✅ Erreicht!</button>` : '<div style="font-size: 2em;">✅</div>'}
+                </div>
+            `).join('');
+        }
+        
+        function unlockAchievement(id) {
+            const achievement = achievements.find(a => a.id === id);
+            if (achievement && !achievement.unlocked) {
+                achievement.unlocked = true;
+                saveData();
+                renderAchievements();
+                
+                // Show celebration
+                alert(`🎉 Erfolg freigeschaltet: ${achievement.title}!`);
+            }
+        }
+        
+        // Attraction Details Modal
+        function showAttractionDetails(id) {
+            const details = {
+                explore: {
+                    title: '🐊 Djerba Explore Park',
+                    content: `
+                        <h2>DER Hit für Kinder!</h2>
+                        <p><strong>📍 Entfernung:</strong> 4 km vom Royal Karthago</p>
+                        <p><strong>⏱️ Öffnungszeiten:</strong> Täglich 9-18 Uhr</p>
+                        <p><strong>💰 Eintritt:</strong> ~15 TND pro Erwachsener (~4,50€)</p>
+                        <p><strong>👶 Kid-Rating:</strong> 👶👶👶👶 PERFEKT!</p>
+                        
+                        <h3>Was gibt es dort?</h3>
+                        <ul>
+                            <li>🐊 <strong>Krokodilfarm</strong> mit Nil-Krokodilen</li>
+                            <li>🎭 <strong>Spektakuläre Fütterungsshow</strong> um 15 Uhr!</li>
+                            <li>🏛️ <strong>Lalla Hadria Museum</strong> (arabische Kunst)</li>
+                            <li>🏘️ <strong>Traditionelles tunesisches Dorf</strong></li>
+                            <li>☕ Flaniermeile mit Cafés</li>
+                        </ul>
+                        
+                        <div class="tip" style="margin-top: 16px;">
+                            <strong>💡 Pro-Tipp:</strong> Kommt zur Fütterungszeit um 15 Uhr! 
+                            Wird voll, aber euer 4-Jähriger wird noch Monate davon erzählen!
+                        </div>
+                        
+                        <h3>🚕 Zum Taxi-Fahrer zeigen:</h3>
+                        <div style="background: var(--bg); padding: 16px; border-radius: 8px; margin: 12px 0;">
+                            <div style="font-size: 1.3em; font-weight: 700;">
+                                🇫🇷 Djerba Explore Park<br>
+                                🇹🇳 مزرعة التماسيح جربة إكسبلور
+                            </div>
+                        </div>
+                    `
+                },
+                erriadh: {
+                    title: '🎨 Djerbahood / Erriadh',
+                    content: `
+                        <h2>Street Art Paradies!</h2>
+                        <p><strong>📍 Entfernung:</strong> 25 km vom Royal Karthago</p>
+                        <p><strong>⏱️ Öffnungszeiten:</strong> Immer zugänglich</p>
+                        <p><strong>💰 Eintritt:</strong> KOSTENLOS!</p>
+                        <p><strong>👶 Kid-Rating:</strong> 👶👶👶 Gut!</p>
+                        
+                        <h3>Was ist das?</h3>
+                        <p>Ein ganzes Berberdorf wurde 2014 von internationalen Künstlern mit 
+                        über 250 bunten Wandgemälden verschönert!</p>
+                        
+                        <ul>
+                            <li>🎨 <strong>250+ Wandgemälde</strong> im ganzen Dorf verteilt</li>
+                            <li>📸 <strong>Interaktive Kunstwerke</strong> als Fotokulisse</li>
+                            <li>🏃 <strong>"Schatzsuche"</strong> für Kinder - nächstes Bild finden!</li>
+                            <li>⏱️ <strong>Dauer:</strong> 30 Min. bis 2 Stunden</li>
+                        </ul>
+                        
+                        <div class="tip" style="margin-top: 16px;">
+                            <strong>💡 Pro-Tipp:</strong> Perfekt für Familien-Fotoshooting! 
+                            Viele Kunstwerke laden zum Mitmachen ein.
+                        </div>
+                        
+                        <h3>🚕 Zum Taxi-Fahrer zeigen:</h3>
+                        <div style="background: var(--bg); padding: 16px; border-radius: 8px; margin: 12px 0;">
+                            <div style="font-size: 1.3em; font-weight: 700;">
+                                🇫🇷 Erriadh / Djerbahood<br>
+                                🇹🇳 الرياض
+                            </div>
+                        </div>
+                    `
+                },
+                beach: {
+                    title: '🏖️ Strand Sidi Mahrez',
+                    content: `
+                        <h2>Der perfekte Familienstrand!</h2>
+                        <p><strong>📍 Entfernung:</strong> Nah am Hotel (fußläufig oder kurze Fahrt)</p>
+                        <p><strong>⏱️ Öffnungszeiten:</strong> 24/7</p>
+                        <p><strong>💰 Kosten:</strong> Kostenlos!</p>
+                        <p><strong>👶 Kid-Rating:</strong> 👶👶👶👶 PERFEKT!</p>
+                        
+                        <h3>Warum so gut für Kinder?</h3>
+                        <ul>
+                            <li>🏖️ <strong>10 km langer Sandstrand</strong> - viel Platz!</li>
+                            <li>💧 <strong>Flach abfallendes Wasser</strong> - sicher für 4-Jährige</li>
+                            <li>🌊 <strong>Ruhiges Meer</strong> - perfekt zum Planschen</li>
+                            <li>🏰 <strong>Feiner Sand</strong> - ideal für Sandburgen</li>
+                            <li>🐪 <strong>Kamelritte möglich</strong> - 15-30 TND (~5-10€)</li>
+                        </ul>
+                        
+                        <div class="tip" style="margin-top: 16px;">
+                            <strong>☀️ Sonnenschutz:</strong> SPF 50+ PFLICHT! Im Juli 32-35°C.
+                            Am besten vormittags oder nachmittags gehen.
+                        </div>
+                    `
+                },
+                market: {
+                    title: '🛍️ Houmt Souk Markt',
+                    content: `
+                        <h2>Orientalisches Shopping-Erlebnis!</h2>
+                        <p><strong>📍 Entfernung:</strong> 20 km vom Royal Karthago</p>
+                        <p><strong>⏱️ Öffnungszeiten:</strong> Täglich 8-20 Uhr</p>
+                        <p><strong>💰 Preise:</strong> HANDELN ist Pflicht!</p>
+                        <p><strong>👶 Kid-Rating:</strong> 👶👶👶 Interessant!</p>
+                        
+                        <h3>Was gibt es?</h3>
+                        <ul>
+                            <li>🎨 <strong>Handgemachte Souvenirs</strong> (Teppiche, Keramik, Schmuck)</li>
+                            <li>👨‍🎨 <strong>Handwerksvorführungen</strong> - spannend für Kinder!</li>
+                            <li>🐟 <strong>Fisch-Auktion</strong> morgens (authentisch!)</li>
+                            <li>🌶️ <strong>Gewürze & Lebensmittel</strong></li>
+                        </ul>
+                        
+                        <div class="tip" style="margin-top: 16px;">
+                            <strong>💰 Handel-Tipp:</strong> Zahlt MAX. 30% des ersten Preises!<br>
+                            <strong>Strategie:</strong> Freundlich bleiben, Preis nennen, wegdrehen wenn zu teuer 😊
+                        </div>
+                        
+                        <h3>🚕 Zum Taxi-Fahrer zeigen:</h3>
+                        <div style="background: var(--bg); padding: 16px; border-radius: 8px; margin: 12px 0;">
+                            <div style="font-size: 1.3em; font-weight: 700;">
+                                🇫🇷 Houmt Souk<br>
+                                🇹🇳 حومة السوق
+                            </div>
+                        </div>
+                    `
+                },
+                pirate: {
+                    title: '🏴‍☠️ Piraten-Bootsfahrt',
+                    content: `
+                        <h2>Abenteuer auf hoher See!</h2>
+                        <p><strong>📍 Start:</strong> Vom Hafen</p>
+                        <p><strong>⏱️ Dauer:</strong> Ca. 6 Stunden (9:30 - 15:30 Uhr)</p>
+                        <p><strong>💰 Preis:</strong> 30-40 TND pro Person (~10-12€)</p>
+                        <p><strong>👶 Kid-Rating:</strong> 👶👶👶👶 ABSOLUTES HIGHLIGHT!</p>
+                        
+                        <h3>Was erwartet euch?</h3>
+                        <ul>
+                            <li>🏴‍☠️ <strong>Piraten-Show</strong> mit Akrobatik & Musik</li>
+                            <li>🎭 <strong>Zaubertricks</strong> an Bord</li>
+                            <li>🏝️ <strong>Stop an einer Insel</strong> - 1h Strand & Schwimmen</li>
+                            <li>🍽️ <strong>Mittagessen inklusive</strong> (Fisch, Pasta, Obst)</li>
+                            <li>🥤 <strong>Getränke</strong> (Wasser, Cola) inklusive</li>
+                        </ul>
+                        
+                        <div class="tip" style="margin-top: 16px;">
+                            <strong>💡 Pro-Tipp:</strong> Super familienfreundlich! 
+                            Die Piraten sind lustig und interagieren mit den Kindern.
+                            Sonnencreme & Schwimmzeug nicht vergessen!
+                        </div>
+                        
+                        <p style="margin-top: 16px;">
+                            <strong>📍 Buchung:</strong> Am besten über Hotel oder Reiseleitung buchen.
+                        </p>
+                    `
+                }
+            };
+            
+            const data = details[id];
+            if (data) {
+                document.getElementById('modalContent').innerHTML = `
+                    <h1>${data.title}</h1>
+                    ${data.content}
+                `;
+                document.getElementById('attractionModal').classList.add('show');
+            }
+        }
+        
+        function closeModal() {
+            document.getElementById('attractionModal').classList.remove('show');
+        }
+        
+        // Close modal when clicking outside
+        document.getElementById('attractionModal').addEventListener('click', (e) => {
+            if (e.target.id === 'attractionModal') {
+                closeModal();
+            }
+        });
+        
+        // PWA Install
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            
+            // Show install prompt after 3 seconds
+            setTimeout(() => {
+                if (!localStorage.getItem('installDismissed')) {
+                    document.getElementById('installPrompt').classList.add('show');
+                }
+            }, 3000);
+        });
+        
+        function installApp() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('App installed');
+                    }
+                    deferredPrompt = null;
+                    document.getElementById('installPrompt').classList.remove('show');
+                });
+            }
+        }
+        
+        function dismissInstall() {
+            document.getElementById('installPrompt').classList.remove('show');
+            localStorage.setItem('installDismissed', 'true');
+        }
+        
+        // Register Service Worker for offline support
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('data:text/javascript;base64,Y29uc3QgQ0FDSEVfTkFNRSA9ICdkamVyYmEtYnVkZHktdjEnOwpjb25zdCB1cmxzVG9DYWNoZSA9IFsnLyddOwoKc2VsZi5hZGRFdmVudExpc3RlbmVyKCdpbnN0YWxsJywgZXZlbnQgPT4gewogIGV2ZW50LndhaXRVbnRpbChjYWNoZXMub3BlbihDQUNIRV9OQU1FKS50aGVuKGNhY2hlID0+IGNhY2hlLmFkZEFsbCh1cmxzVG9DYWNoZSkpKTsKfSk7CgpzZWxmLmFkZEV2ZW50TGlzdGVuZXIoJ2ZldGNoJywgZXZlbnQgPT4gewogIGV2ZW50LnJlc3BvbmRXaXRoKGNhY2hlcy5tYXRjaChldmVudC5yZXF1ZXN0KS50aGVuKHJlc3BvbnNlID0+IHJlc3BvbnNlIHx8IGZldGNoKGV2ZW50LnJlcXVlc3QpKSk7Cn0pOw==')
+                    .catch(err => console.log('Service worker registration failed:', err));
+            });
+        }
+        
+        // Initialize app
+        loadData();
+    </script>
+</body>
+</html>
