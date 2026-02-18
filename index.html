@@ -814,6 +814,148 @@
         .budget-bar-fill.warning { background: #FCD34D; }
         .budget-bar-fill.danger { background: #FCA5A5; }
 
+        /* Essential Items Banner */
+        .essential-banner {
+            background: linear-gradient(135deg, var(--sunset), #EA580C);
+            color: white;
+            padding: 16px 20px;
+            border-radius: 16px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            box-shadow: var(--shadow);
+            animation: fadeIn 0.4s ease;
+        }
+        .essential-banner-icon {
+            font-size: 2em;
+            flex-shrink: 0;
+        }
+        .essential-banner-label {
+            font-size: 0.72em;
+            opacity: 0.85;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            margin-bottom: 2px;
+        }
+        .essential-banner-text {
+            font-size: 1.25em;
+            font-weight: 800;
+            font-family: 'Caveat', cursive;
+        }
+
+        /* Person stats badge */
+        .person-stats {
+            margin-left: auto;
+            font-size: 0.82em;
+            color: var(--text-light);
+            font-weight: 700;
+            background: var(--bg);
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+
+        /* Packing item row */
+        .packing-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 11px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .packing-item:last-child { border-bottom: none; }
+        .packing-item input[type="checkbox"] {
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+            accent-color: var(--ocean);
+            flex-shrink: 0;
+        }
+        .packing-item-name {
+            flex: 1;
+            font-size: 0.95em;
+            transition: all 0.2s;
+        }
+        .packing-item-qty {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.8em;
+            font-weight: 700;
+            color: var(--text-light);
+            white-space: nowrap;
+        }
+        .packing-item.checked .packing-item-name {
+            text-decoration: line-through;
+            opacity: 0.42;
+        }
+        .packing-item-del {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            opacity: 0.3;
+            padding: 4px 6px;
+            border-radius: 6px;
+            transition: opacity 0.2s, background 0.2s;
+            flex-shrink: 0;
+        }
+        .packing-item-del:hover {
+            opacity: 1;
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        /* Add item form */
+        .add-packing-form {
+            display: flex;
+            gap: 8px;
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 2px solid var(--border);
+            flex-wrap: wrap;
+        }
+        .add-packing-form input[type="text"] {
+            flex: 1;
+            min-width: 110px;
+            padding: 10px 12px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 0.9em;
+            font-family: 'Outfit', sans-serif;
+        }
+        .add-packing-form input[type="number"] {
+            width: 62px;
+            padding: 10px 6px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 0.9em;
+            font-family: 'Outfit', sans-serif;
+            text-align: center;
+        }
+        .add-packing-form input:focus {
+            outline: none;
+            border-color: var(--ocean);
+            box-shadow: 0 0 0 3px rgba(14,165,233,0.1);
+        }
+        .btn-add-item {
+            background: linear-gradient(135deg, var(--ocean), var(--ocean-dark));
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.9em;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+        }
+        .btn-add-item:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
+        }
+
         /* Plan Day Headers */
         .plan-day-group { margin-bottom: 4px; }
         .plan-day-header {
@@ -1134,6 +1276,17 @@
         
         <!-- Packing List Section -->
         <div id="packing" class="section">
+
+            <!-- Essential Banner -->
+            <div class="essential-banner" id="essentialBanner">
+                <div class="essential-banner-icon" id="essentialIcon">💡</div>
+                <div class="essential-banner-content">
+                    <div class="essential-banner-label">Nicht vergessen!</div>
+                    <div class="essential-banner-text" id="essentialText">Sonnencreme eingepackt?</div>
+                </div>
+            </div>
+
+            <!-- Packing Progress -->
             <div class="packing-progress">
                 <div style="font-size: 0.9em; opacity: 0.9;">Gepäck-Fortschritt</div>
                 <div class="packing-progress-text" id="packingProgressText">0 / 0 Artikel</div>
@@ -1142,136 +1295,52 @@
                 </div>
                 <div style="font-size: 0.85em; opacity: 0.8;">Artikel eingepackt ✓</div>
             </div>
+
+            <!-- Marc -->
             <div class="card">
                 <div class="card-header">
-                    <div class="card-icon">👕</div>
-                    <div class="card-title">Kleidung</div>
+                    <div class="card-icon">👨</div>
+                    <div class="card-title">Marc</div>
+                    <div class="person-stats" id="stats-marc">0/0</div>
                 </div>
-                <div class="checklist-item">
-                    <input type="checkbox" onchange="saveChecklist()">
-                    <div class="item-text">Leichte, luftige Kleidung (32-35°C!)</div>
-                </div>
-                <div class="checklist-item">
-                    <input type="checkbox" onchange="saveChecklist()">
-                    <div class="item-text">Badekleidung (2-3 Sets)</div>
-                </div>
-                <div class="checklist-item">
-                    <input type="checkbox" onchange="saveChecklist()">
-                    <div class="item-text">Flip-Flops & bequeme Schuhe</div>
-                </div>
-                <div class="checklist-item">
-                    <input type="checkbox" onchange="saveChecklist()">
-                    <div class="item-text">Sonnenhut / Cap</div>
-                </div>
-                <div class="checklist-item">
-                    <input type="checkbox" onchange="saveChecklist()">
-                    <div class="item-text">Leichte Jacke für Abends</div>
+                <div id="packing-marc"></div>
+                <div class="add-packing-form">
+                    <input type="text" id="marc-name" placeholder="Gegenstand..." onkeydown="if(event.key==='Enter')addPackingItem('marc')">
+                    <input type="number" id="marc-qty" value="1" min="1" max="99" title="Menge">
+                    <button class="btn-add-item" onclick="addPackingItem('marc')">+ Hinzufügen</button>
                 </div>
             </div>
-            
+
+            <!-- Marie -->
             <div class="card">
                 <div class="card-header">
-                    <div class="card-icon">🧴</div>
-                    <div class="card-title">Sonnenschutz & Hygiene</div>
+                    <div class="card-icon">👩</div>
+                    <div class="card-title">Marie</div>
+                    <div class="person-stats" id="stats-marie">0/0</div>
                 </div>
-                <div class="checklist-item">
-                    <input type="checkbox" onchange="saveChecklist()">
-                    <div class="item-text">Sonnencreme SPF 50+ (WICHTIG!)</div>
-                </div>
-                <div class="checklist-item">
-                    <input type="checkbox" onchange="saveChecklist()">
-                    <div class="item-text">After-Sun Lotion</div>
-                </div>
-                <div class="checklist-item">
-                    <input type="checkbox" onchange="saveChecklist()">
-                    <div class="item-text">Zahnbürste & Zahnpasta</div>
-                </div>
-                <div class="checklist-item">
-                    <input type="checkbox" onchange="saveChecklist()">
-                    <div class="item-text">Shampoo & Duschgel</div>
+                <div id="packing-marie"></div>
+                <div class="add-packing-form">
+                    <input type="text" id="marie-name" placeholder="Gegenstand..." onkeydown="if(event.key==='Enter')addPackingItem('marie')">
+                    <input type="number" id="marie-qty" value="1" min="1" max="99" title="Menge">
+                    <button class="btn-add-item" onclick="addPackingItem('marie')">+ Hinzufügen</button>
                 </div>
             </div>
-            
+
+            <!-- Marvin -->
             <div class="card">
                 <div class="card-header">
                     <div class="card-icon">👶</div>
-                    <div class="card-title">Für euer Kind (4 Jahre)</div>
+                    <div class="card-title">Marvin</div>
+                    <div class="person-stats" id="stats-marvin">0/0</div>
                 </div>
-                <div class="checklist-item">
-                    <input type="checkbox" onchange="saveChecklist()">
-                    <div class="item-text">Schwimmhilfen / Schwimmflügel</div>
-                </div>
-                <div class="checklist-item">
-                    <input type="checkbox" onchange="saveChecklist()">
-                    <div class="item-text">Sonnenhut mit Nackenschutz</div>
-                </div>
-                <div class="checklist-item">
-                    <input type="checkbox" onchange="saveChecklist()">
-                    <div class="item-text">Sandspielzeug</div>
-                </div>
-                <div class="checklist-item">
-                    <input type="checkbox" onchange="saveChecklist()">
-                    <div class="item-text">Lieblingskuscheltier</div>
-                </div>
-                <div class="checklist-item">
-                    <input type="checkbox" onchange="saveChecklist()">
-                    <div class="item-text">Snacks für den Flug</div>
+                <div id="packing-marvin"></div>
+                <div class="add-packing-form">
+                    <input type="text" id="marvin-name" placeholder="Gegenstand..." onkeydown="if(event.key==='Enter')addPackingItem('marvin')">
+                    <input type="number" id="marvin-qty" value="1" min="1" max="99" title="Menge">
+                    <button class="btn-add-item" onclick="addPackingItem('marvin')">+ Hinzufügen</button>
                 </div>
             </div>
-            
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-icon">📱</div>
-                    <div class="card-title">Technik & Dokumente</div>
-                </div>
-                <div class="checklist-item">
-                    <input type="checkbox" onchange="saveChecklist()">
-                    <div class="item-text">Reisepass / Personalausweis</div>
-                </div>
-                <div class="checklist-item">
-                    <input type="checkbox" onchange="saveChecklist()">
-                    <div class="item-text">Flugtickets & Hotelbuchung</div>
-                </div>
-                <div class="checklist-item">
-                    <input type="checkbox" onchange="saveChecklist()">
-                    <div class="item-text">Handy-Ladegeräte</div>
-                </div>
-                <div class="checklist-item">
-                    <input type="checkbox" onchange="saveChecklist()">
-                    <div class="item-text">Powerbank</div>
-                </div>
-                <div class="checklist-item">
-                    <input type="checkbox" onchange="saveChecklist()">
-                    <div class="item-text">Kamera</div>
-                </div>
-            </div>
-            
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-icon">💊</div>
-                    <div class="card-title">Reiseapotheke</div>
-                </div>
-                <div class="checklist-item">
-                    <input type="checkbox" onchange="saveChecklist()">
-                    <div class="item-text">Schmerzmittel (Ibuprofen, Paracetamol)</div>
-                </div>
-                <div class="checklist-item">
-                    <input type="checkbox" onchange="saveChecklist()">
-                    <div class="item-text">Durchfallmittel</div>
-                </div>
-                <div class="checklist-item">
-                    <input type="checkbox" onchange="saveChecklist()">
-                    <div class="item-text">Pflaster & Verbandszeug</div>
-                </div>
-                <div class="checklist-item">
-                    <input type="checkbox" onchange="saveChecklist()">
-                    <div class="item-text">Insektenschutz</div>
-                </div>
-                <div class="checklist-item">
-                    <input type="checkbox" onchange="saveChecklist()">
-                    <div class="item-text">Persönliche Medikamente</div>
-                </div>
-            </div>
+
         </div>
         
         <!-- Planner Section -->
@@ -1530,7 +1599,9 @@
             // updateAttractionCards() called after DOM ready
             setTimeout(updateAttractionCards, 0);
 
-            loadChecklist();
+            loadPackingData();
+            renderAllPacking();
+            showEssentialBanner();
             loadPlans();
         }
         
@@ -1544,14 +1615,17 @@
         document.querySelectorAll('.tab').forEach(tab => {
             tab.addEventListener('click', () => {
                 const targetId = tab.dataset.tab;
-                
+
                 // Update active tab
                 document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
                 tab.classList.add('active');
-                
+
                 // Update active section
                 document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
                 document.getElementById(targetId).classList.add('active');
+
+                // Show new essential item every time packing tab is opened
+                if (targetId === 'packing') showEssentialBanner();
             });
         });
         
@@ -1979,6 +2053,155 @@
 
         // === NEW FUNCTIONS ===
 
+        // === CONFIGURABLE PACKING LIST ===
+
+        const defaultPackingData = {
+            marc: [
+                { id: 1,   name: 'Reisepass / Ausweis',    qty: 1, checked: false },
+                { id: 2,   name: 'T-Shirts',               qty: 5, checked: false },
+                { id: 3,   name: 'Badehosen',              qty: 2, checked: false },
+                { id: 4,   name: 'Shorts',                 qty: 3, checked: false },
+                { id: 5,   name: 'Unterwäsche',            qty: 7, checked: false },
+                { id: 6,   name: 'Flip-Flops',             qty: 1, checked: false },
+                { id: 7,   name: 'Sonnencreme SPF 50+',    qty: 1, checked: false },
+                { id: 8,   name: 'Sonnenhut / Cap',        qty: 1, checked: false },
+                { id: 9,   name: 'Zahnbürste & Zahnpasta',qty: 1, checked: false },
+                { id: 10,  name: 'Ladekabel & Powerbank',  qty: 1, checked: false }
+            ],
+            marie: [
+                { id: 101, name: 'Reisepass / Ausweis',    qty: 1, checked: false },
+                { id: 102, name: 'Bikinis',                qty: 2, checked: false },
+                { id: 103, name: 'Sommerkleider',          qty: 3, checked: false },
+                { id: 104, name: 'Unterwäsche',            qty: 7, checked: false },
+                { id: 105, name: 'Sonnencreme SPF 50+',    qty: 1, checked: false },
+                { id: 106, name: 'Sonnenhut',              qty: 1, checked: false },
+                { id: 107, name: 'After-Sun Lotion',       qty: 1, checked: false },
+                { id: 108, name: 'Zahnbürste & Zahnpasta',qty: 1, checked: false },
+                { id: 109, name: 'Flip-Flops & Sandalen',  qty: 1, checked: false },
+                { id: 110, name: 'Schminke & Pflege',      qty: 1, checked: false }
+            ],
+            marvin: [
+                { id: 201, name: 'Reisepass',                        qty: 1, checked: false },
+                { id: 202, name: 'Badehose',                         qty: 2, checked: false },
+                { id: 203, name: 'T-Shirts',                         qty: 5, checked: false },
+                { id: 204, name: 'Schwimmflügel',                    qty: 1, checked: false },
+                { id: 205, name: 'Sonnenhut mit Nackenschutz',       qty: 1, checked: false },
+                { id: 206, name: 'Sonnencreme SPF 50+ (Kinder)',     qty: 1, checked: false },
+                { id: 207, name: 'Sandspielzeug',                    qty: 1, checked: false },
+                { id: 208, name: 'Lieblingskuscheltier',             qty: 1, checked: false },
+                { id: 209, name: 'Snacks für den Flug',              qty: 1, checked: false },
+                { id: 210, name: 'Windeln / Unterwäsche',            qty: 1, checked: false }
+            ]
+        };
+
+        let packingData = {};
+
+        const essentialItems = [
+            { icon: '🛂', text: 'Reisepass eingepackt?' },
+            { icon: '🧴', text: 'Sonnencreme SPF 50+?' },
+            { icon: '🪥', text: 'Zahnbürste vergessen?' },
+            { icon: '🔌', text: 'Ladekabel dabei?' },
+            { icon: '💊', text: 'Reiseapotheke vollständig?' },
+            { icon: '👒', text: 'Sonnenhut nicht vergessen!' },
+            { icon: '💳', text: 'Kreditkarte & Bargeld?' },
+            { icon: '📱', text: 'Handy aufgeladen?' },
+            { icon: '🩴', text: 'Flip-Flops eingepackt?' },
+            { icon: '🔋', text: 'Powerbank geladen?' },
+            { icon: '🕶️', text: 'Sonnenbrille dabei?' },
+            { icon: '🩹', text: 'Pflaster & Verbandzeug?' },
+            { icon: '🌿', text: 'Insektenschutz eingepackt?' },
+            { icon: '👙', text: 'Badekleidung vollständig?' },
+            { icon: '📷', text: 'Kamera & Ladegerät?' },
+            { icon: '🧸', text: 'Kuscheltier für Marvin?' },
+            { icon: '🏊', text: 'Schwimmflügel eingepackt?' },
+            { icon: '🌡️', text: 'Fieberthermometer dabei?' },
+            { icon: '🧪', text: 'After-Sun Lotion?' },
+            { icon: '🗺️', text: 'Offline-App geöffnet?' }
+        ];
+
+        function showEssentialBanner() {
+            const item = essentialItems[Math.floor(Math.random() * essentialItems.length)];
+            document.getElementById('essentialIcon').textContent = item.icon;
+            document.getElementById('essentialText').textContent = item.text;
+        }
+
+        function loadPackingData() {
+            const saved = localStorage.getItem('packingDataV2');
+            if (saved) {
+                packingData = JSON.parse(saved);
+                // Make sure all three people exist
+                ['marc', 'marie', 'marvin'].forEach(p => {
+                    if (!packingData[p]) packingData[p] = JSON.parse(JSON.stringify(defaultPackingData[p]));
+                });
+            } else {
+                packingData = JSON.parse(JSON.stringify(defaultPackingData));
+            }
+            savePackingData();
+        }
+
+        function savePackingData() {
+            localStorage.setItem('packingDataV2', JSON.stringify(packingData));
+        }
+
+        function renderPersonPacking(person) {
+            const container = document.getElementById('packing-' + person);
+            const stats = document.getElementById('stats-' + person);
+            if (!container) return;
+            const items = packingData[person] || [];
+            const checkedCount = items.filter(i => i.checked).length;
+            if (stats) stats.textContent = checkedCount + '/' + items.length;
+            if (items.length === 0) {
+                container.innerHTML = '<p style="text-align:center;color:var(--text-light);padding:14px 0;font-size:0.9em;">Noch leer – Gegenstände hinzufügen!</p>';
+                updatePackingProgress();
+                return;
+            }
+            container.innerHTML = items.map(item => `
+                <div class="packing-item ${item.checked ? 'checked' : ''}">
+                    <input type="checkbox" ${item.checked ? 'checked' : ''} onchange="togglePackingItem('${person}', ${item.id})">
+                    <div class="packing-item-name">${item.name}</div>
+                    ${item.qty > 1 ? `<div class="packing-item-qty">×${item.qty}</div>` : ''}
+                    <button class="packing-item-del" onclick="deletePackingItem('${person}', ${item.id})" title="Löschen">🗑️</button>
+                </div>`).join('');
+            updatePackingProgress();
+        }
+
+        function renderAllPacking() {
+            renderPersonPacking('marc');
+            renderPersonPacking('marie');
+            renderPersonPacking('marvin');
+        }
+
+        function togglePackingItem(person, id) {
+            const item = (packingData[person] || []).find(i => i.id === id);
+            if (item) {
+                item.checked = !item.checked;
+                savePackingData();
+                renderPersonPacking(person);
+            }
+        }
+
+        function deletePackingItem(person, id) {
+            packingData[person] = (packingData[person] || []).filter(i => i.id !== id);
+            savePackingData();
+            renderPersonPacking(person);
+        }
+
+        function addPackingItem(person) {
+            const nameEl = document.getElementById(person + '-name');
+            const qtyEl  = document.getElementById(person + '-qty');
+            const name = nameEl.value.trim();
+            const qty  = Math.max(1, parseInt(qtyEl.value) || 1);
+            if (!name) { showToast('Bitte einen Namen eingeben'); return; }
+            if (!packingData[person]) packingData[person] = [];
+            packingData[person].push({ id: Date.now(), name, qty, checked: false });
+            savePackingData();
+            renderPersonPacking(person);
+            nameEl.value = '';
+            qtyEl.value  = '1';
+            nameEl.focus();
+            showToast(name + ' hinzugefügt ✅');
+        }
+
         // Toast notification (replaces alert)
         function showToast(message) {
             const toast = document.getElementById('toast');
@@ -2025,14 +2248,19 @@
             });
         }
 
-        // Packing Progress
+        // Packing Progress (uses packingData state)
         function updatePackingProgress() {
-            const checkboxes = document.querySelectorAll('.checklist-item input[type="checkbox"]');
-            const total = checkboxes.length;
-            const checked = Array.from(checkboxes).filter(cb => cb.checked).length;
+            let total = 0, checked = 0;
+            ['marc', 'marie', 'marvin'].forEach(p => {
+                const items = packingData[p] || [];
+                total   += items.length;
+                checked += items.filter(i => i.checked).length;
+            });
             const pct = total > 0 ? (checked / total) * 100 : 0;
-            document.getElementById('packingProgressText').textContent = checked + ' / ' + total + ' Artikel';
-            document.getElementById('packingProgressFill').style.width = pct + '%';
+            const el   = document.getElementById('packingProgressText');
+            const fill = document.getElementById('packingProgressFill');
+            if (el)   el.textContent = checked + ' / ' + total + ' Artikel';
+            if (fill) fill.style.width = pct + '%';
         }
 
         // Category Breakdown
