@@ -617,15 +617,213 @@
                 gap: 6px;
                 padding: 8px;
             }
-            
+
             .tab {
                 padding: 8px 4px;
                 font-size: 0.7em;
             }
-            
+
             .tab-icon {
                 font-size: 1.5em;
             }
+        }
+
+        /* === IMPROVEMENTS === */
+
+        /* Visited Badge on Attractions */
+        .attraction {
+            position: relative;
+        }
+        .visited-badge {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            background: var(--success);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.78em;
+            font-weight: 700;
+            pointer-events: none;
+        }
+        .attraction.visited-card {
+            border-left-color: var(--success);
+        }
+        .btn-visited {
+            background: transparent;
+            border: 2px solid var(--border);
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 0.85em;
+            font-weight: 600;
+            cursor: pointer;
+            color: var(--text-light);
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+        .btn-visited:hover {
+            border-color: var(--success);
+            color: var(--success);
+        }
+        .visited-card .btn-visited {
+            border-color: var(--success);
+            color: var(--success);
+            background: rgba(16, 185, 129, 0.08);
+        }
+
+        /* Packing Progress */
+        .packing-progress {
+            background: linear-gradient(135deg, var(--ocean), var(--ocean-dark));
+            color: white;
+            padding: 20px 24px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .packing-progress-text {
+            font-size: 1.8em;
+            font-weight: 800;
+            font-family: 'Caveat', cursive;
+            margin: 4px 0;
+        }
+        .packing-progress-bar {
+            background: rgba(255,255,255,0.3);
+            height: 12px;
+            border-radius: 6px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        .packing-progress-fill {
+            height: 100%;
+            background: white;
+            transition: width 0.5s ease;
+            border-radius: 6px;
+        }
+
+        /* Category Breakdown */
+        .category-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+        .category-bar-label {
+            min-width: 80px;
+            font-size: 0.88em;
+            font-weight: 600;
+        }
+        .category-bar-track {
+            flex: 1;
+            background: var(--border);
+            height: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .category-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--ocean), var(--sand));
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
+        .category-bar-amount {
+            font-size: 0.88em;
+            font-weight: 700;
+            min-width: 58px;
+            text-align: right;
+            color: var(--danger);
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%) translateY(120px);
+            background: linear-gradient(135deg, var(--sand), #D97706);
+            color: white;
+            padding: 14px 24px;
+            border-radius: 16px;
+            box-shadow: var(--shadow-lg);
+            font-weight: 700;
+            font-size: 1em;
+            z-index: 3000;
+            opacity: 0;
+            transition: all 0.4s ease;
+            text-align: center;
+            max-width: 320px;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* Budget Edit */
+        .btn-edit-budget {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.6);
+            padding: 8px 18px;
+            border-radius: 10px;
+            font-size: 0.85em;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 12px;
+            transition: all 0.3s ease;
+            font-family: 'Outfit', sans-serif;
+        }
+        .btn-edit-budget:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        .budget-edit-form {
+            display: none;
+            margin-top: 12px;
+            background: rgba(255,255,255,0.15);
+            padding: 12px;
+            border-radius: 10px;
+        }
+        .budget-edit-form.show {
+            display: block;
+        }
+        .budget-edit-form input {
+            background: rgba(255,255,255,0.9);
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 1em;
+            width: 100%;
+            margin-bottom: 8px;
+            font-family: 'Outfit', sans-serif;
+            color: var(--text);
+        }
+        .budget-edit-form .btn-save {
+            background: white;
+            color: var(--palm);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1em;
+        }
+
+        /* Budget bar dynamic color */
+        .budget-bar-fill.warning { background: #FCD34D; }
+        .budget-bar-fill.danger { background: #FCA5A5; }
+
+        /* Plan Day Headers */
+        .plan-day-group { margin-bottom: 4px; }
+        .plan-day-header {
+            background: linear-gradient(135deg, var(--ocean), var(--ocean-dark));
+            color: white;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-weight: 700;
+            margin: 12px 0 4px;
+            font-size: 0.9em;
         }
     </style>
 </head>
@@ -675,7 +873,7 @@
         
         <!-- Attractions Section -->
         <div id="attractions" class="section active">
-            <div class="card attraction" onclick="showAttractionDetails('explore')">
+            <div class="card attraction" id="card-explore" onclick="showAttractionDetails('explore')">
                 <div class="card-header">
                     <div class="card-icon">🐊</div>
                     <div class="card-title">Djerba Explore Park</div>
@@ -693,9 +891,12 @@
                     <span class="tip-icon">💡</span>
                     Fütterung um 15 Uhr - Dein Kind wird noch Monate davon erzählen!
                 </div>
+                <div style="text-align: right;">
+                    <button class="btn-visited" id="visited-explore" onclick="toggleVisited('explore', event)">⬜ Als besucht markieren</button>
+                </div>
             </div>
             
-            <div class="card attraction" onclick="showAttractionDetails('erriadh')">
+            <div class="card attraction" id="card-erriadh" onclick="showAttractionDetails('erriadh')">
                 <div class="card-header">
                     <div class="card-icon">🎨</div>
                     <div class="card-title">Djerbahood / Erriadh</div>
@@ -713,9 +914,12 @@
                     <span class="tip-icon">💡</span>
                     Viele interaktive Kunstwerke als perfekte Fotokulisse!
                 </div>
+                <div style="text-align: right;">
+                    <button class="btn-visited" id="visited-erriadh" onclick="toggleVisited('erriadh', event)">⬜ Als besucht markieren</button>
+                </div>
             </div>
             
-            <div class="card attraction" onclick="showAttractionDetails('beach')">
+            <div class="card attraction" id="card-beach" onclick="showAttractionDetails('beach')">
                 <div class="card-header">
                     <div class="card-icon">🏖️</div>
                     <div class="card-title">Strand Sidi Mahrez</div>
@@ -733,9 +937,12 @@
                     <span class="tip-icon">💡</span>
                     Kamelritte am Strand: 15-30 TND (~5-10€)
                 </div>
+                <div style="text-align: right;">
+                    <button class="btn-visited" id="visited-beach" onclick="toggleVisited('beach', event)">⬜ Als besucht markieren</button>
+                </div>
             </div>
             
-            <div class="card attraction" onclick="showAttractionDetails('market')">
+            <div class="card attraction" id="card-market" onclick="showAttractionDetails('market')">
                 <div class="card-header">
                     <div class="card-icon">🛍️</div>
                     <div class="card-title">Houmt Souk Markt</div>
@@ -753,9 +960,12 @@
                     <span class="tip-icon">💡</span>
                     Max. 30% des ersten Preises zahlen - Handeln gehört dazu!
                 </div>
+                <div style="text-align: right;">
+                    <button class="btn-visited" id="visited-market" onclick="toggleVisited('market', event)">⬜ Als besucht markieren</button>
+                </div>
             </div>
             
-            <div class="card attraction" onclick="showAttractionDetails('pirate')">
+            <div class="card attraction" id="card-pirate" onclick="showAttractionDetails('pirate')">
                 <div class="card-header">
                     <div class="card-icon">🏴‍☠️</div>
                     <div class="card-title">Piraten-Bootsfahrt</div>
@@ -772,6 +982,9 @@
                 <div class="tip">
                     <span class="tip-icon">💡</span>
                     Sehr familienfreundlich - Kinder lieben die Show!
+                </div>
+                <div style="text-align: right;">
+                    <button class="btn-visited" id="visited-pirate" onclick="toggleVisited('pirate', event)">⬜ Als besucht markieren</button>
                 </div>
             </div>
         </div>
@@ -860,6 +1073,11 @@
                     <div class="budget-bar-fill" id="budgetBarFill" style="width: 100%"></div>
                 </div>
                 <div class="budget-status" id="budgetStatus">😎 LÄUFT! Locker noch Ausflüge drin!</div>
+                <button class="btn-edit-budget" onclick="toggleBudgetEdit()">✏️ Budget anpassen</button>
+                <div class="budget-edit-form" id="budgetEditForm">
+                    <input type="number" id="newBudgetAmount" placeholder="Neues Budget in €" min="1" step="10">
+                    <button class="btn-save" onclick="saveBudget()">✅ Speichern</button>
+                </div>
             </div>
             
             <div class="card">
@@ -904,10 +1122,26 @@
                     </p>
                 </div>
             </div>
+
+            <div class="card" id="categoryCard" style="display:none;">
+                <div class="card-header">
+                    <div class="card-icon">📈</div>
+                    <div class="card-title">Nach Kategorie</div>
+                </div>
+                <div id="categoryBreakdown"></div>
+            </div>
         </div>
         
         <!-- Packing List Section -->
         <div id="packing" class="section">
+            <div class="packing-progress">
+                <div style="font-size: 0.9em; opacity: 0.9;">Gepäck-Fortschritt</div>
+                <div class="packing-progress-text" id="packingProgressText">0 / 0 Artikel</div>
+                <div class="packing-progress-bar">
+                    <div class="packing-progress-fill" id="packingProgressFill" style="width: 0%"></div>
+                </div>
+                <div style="font-size: 0.85em; opacity: 0.8;">Artikel eingepackt ✓</div>
+            </div>
             <div class="card">
                 <div class="card-header">
                     <div class="card-icon">👕</div>
@@ -1050,7 +1284,7 @@
                 
                 <div class="input-group">
                     <label class="label">Datum:</label>
-                    <input type="date" id="planDate" min="2026-07-11" max="2026-07-25">
+                    <input type="date" id="planDate">
                 </div>
                 
                 <div class="input-group">
@@ -1244,6 +1478,9 @@
         </div>
     </div>
     
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+
     <!-- Install Prompt -->
     <div id="installPrompt" class="install-prompt">
         <h3>🏝️ App installieren?</h3>
@@ -1259,7 +1496,8 @@
             total: 500,
             expenses: []
         };
-        
+        let visitedAttractions = [];
+
         let achievements = [
             { id: 'krokodil', icon: '🐊', title: 'Krokodil-Flüsterer', desc: 'Djerba Explore besucht', unlocked: false },
             { id: 'kamel', icon: '🐪', title: 'Wüsten-Krieger', desc: 'Kamelritt gemacht', unlocked: false },
@@ -1276,14 +1514,22 @@
                 budget = JSON.parse(savedBudget);
                 updateBudgetDisplay();
                 renderExpenses();
+                renderCategoryBreakdown();
             }
-            
+
             const savedAchievements = localStorage.getItem('achievements');
             if (savedAchievements) {
                 achievements = JSON.parse(savedAchievements);
             }
             renderAchievements();
-            
+
+            const savedVisited = localStorage.getItem('visitedAttractions');
+            if (savedVisited) {
+                visitedAttractions = JSON.parse(savedVisited);
+            }
+            // updateAttractionCards() called after DOM ready
+            setTimeout(updateAttractionCards, 0);
+
             loadChecklist();
             loadPlans();
         }
@@ -1357,18 +1603,21 @@
             saveData();
             updateBudgetDisplay();
             renderExpenses();
-            
+            renderCategoryBreakdown();
+
             // Clear inputs
             document.getElementById('expenseAmount').value = '';
             document.getElementById('expenseDesc').value = '';
+            showToast('Ausgabe eingetragen ✅');
         }
-        
+
         function deleteExpense(id) {
             if (confirm('Ausgabe wirklich löschen?')) {
                 budget.expenses = budget.expenses.filter(e => e.id !== id);
                 saveData();
                 updateBudgetDisplay();
                 renderExpenses();
+                renderCategoryBreakdown();
             }
         }
         
@@ -1378,7 +1627,9 @@
             const percentage = (remaining / budget.total) * 100;
             
             document.getElementById('remainingBudget').textContent = remaining.toFixed(2) + '€';
-            document.getElementById('budgetBarFill').style.width = percentage + '%';
+            const fill = document.getElementById('budgetBarFill');
+            fill.style.width = Math.max(0, percentage) + '%';
+            fill.className = 'budget-bar-fill' + (percentage < 20 ? ' danger' : percentage < 40 ? ' warning' : '');
             
             let status = '';
             if (percentage > 70) {
@@ -1430,7 +1681,7 @@
                 };
             });
             localStorage.setItem('checklist', JSON.stringify(items));
-            
+
             // Update UI
             document.querySelectorAll('.checklist-item').forEach(item => {
                 if (item.querySelector('input').checked) {
@@ -1439,8 +1690,9 @@
                     item.classList.remove('checked');
                 }
             });
+            updatePackingProgress();
         }
-        
+
         function loadChecklist() {
             const saved = localStorage.getItem('checklist');
             if (saved) {
@@ -1455,6 +1707,7 @@
                     }
                 });
             }
+            updatePackingProgress();
         }
         
         // Planner
@@ -1487,26 +1740,36 @@
         function loadPlans() {
             const plans = JSON.parse(localStorage.getItem('plans') || '[]');
             const list = document.getElementById('plansList');
-            
+
             if (plans.length === 0) {
                 list.innerHTML = '<p style="text-align: center; color: var(--text-light); padding: 20px;">Noch keine Aktivitäten geplant 🌴</p>';
                 return;
             }
-            
-            list.innerHTML = plans
-                .sort((a, b) => new Date(a.date) - new Date(b.date))
-                .map(p => `
-                    <div class="expense-item" style="border-bottom: 1px solid var(--border); padding: 16px 0;">
-                        <div>
-                            <div style="font-weight: 700; margin-bottom: 4px;">${p.activity}</div>
-                            <div style="color: var(--text-light); font-size: 0.9em;">
-                                📅 ${new Date(p.date).toLocaleDateString('de-DE')}
-                                ${p.time ? '⏰ ' + p.time : ''}
+
+            const sorted = plans.sort((a, b) => new Date(a.date) - new Date(b.date));
+            // Group by date
+            const grouped = {};
+            sorted.forEach(p => {
+                if (!grouped[p.date]) grouped[p.date] = [];
+                grouped[p.date].push(p);
+            });
+
+            list.innerHTML = Object.entries(grouped).map(([date, dayPlans]) => {
+                const d = new Date(date + 'T00:00:00');
+                const dayStr = d.toLocaleDateString('de-DE', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+                return `<div class="plan-day-group">
+                    <div class="plan-day-header">📅 ${dayStr}</div>
+                    ${dayPlans.map(p => `
+                        <div class="expense-item" style="border-bottom: 1px solid var(--border); padding: 12px 0 12px 8px;">
+                            <div>
+                                <div style="font-weight: 700;">${p.activity}</div>
+                                ${p.time ? `<div style="color: var(--text-light); font-size: 0.9em;">⏰ ${p.time}</div>` : ''}
                             </div>
+                            <button class="btn-delete" onclick="deletePlan(${p.id})">🗑️</button>
                         </div>
-                        <button class="btn-delete" onclick="deletePlan(${p.id})">🗑️</button>
-                    </div>
-                `).join('');
+                    `).join('')}
+                </div>`;
+            }).join('');
         }
         
         function deletePlan(id) {
@@ -1541,7 +1804,7 @@
                 renderAchievements();
                 
                 // Show celebration
-                alert(`🎉 Erfolg freigeschaltet: ${achievement.title}!`);
+                showToast('🎉 Erfolg freigeschaltet: ' + achievement.title + '!');
             }
         }
         
@@ -1713,7 +1976,116 @@
         function closeModal() {
             document.getElementById('attractionModal').classList.remove('show');
         }
-        
+
+        // === NEW FUNCTIONS ===
+
+        // Toast notification (replaces alert)
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            clearTimeout(toast._timer);
+            toast._timer = setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // Visited Attractions
+        function toggleVisited(id, event) {
+            event.stopPropagation();
+            if (visitedAttractions.includes(id)) {
+                visitedAttractions = visitedAttractions.filter(v => v !== id);
+                showToast('Besuch-Status entfernt');
+            } else {
+                visitedAttractions.push(id);
+                showToast('Als besucht markiert! ✅');
+            }
+            localStorage.setItem('visitedAttractions', JSON.stringify(visitedAttractions));
+            updateAttractionCards();
+        }
+
+        function updateAttractionCards() {
+            const ids = ['explore', 'erriadh', 'beach', 'market', 'pirate'];
+            ids.forEach(id => {
+                const card = document.getElementById('card-' + id);
+                const btn = document.getElementById('visited-' + id);
+                if (!card || !btn) return;
+                const isVisited = visitedAttractions.includes(id);
+                card.classList.toggle('visited-card', isVisited);
+                // Remove old badge if exists
+                const oldBadge = card.querySelector('.visited-badge');
+                if (oldBadge) oldBadge.remove();
+                if (isVisited) {
+                    const badge = document.createElement('div');
+                    badge.className = 'visited-badge';
+                    badge.textContent = '✅ Besucht';
+                    card.appendChild(badge);
+                    btn.textContent = '✅ Besucht!';
+                } else {
+                    btn.textContent = '⬜ Als besucht markieren';
+                }
+            });
+        }
+
+        // Packing Progress
+        function updatePackingProgress() {
+            const checkboxes = document.querySelectorAll('.checklist-item input[type="checkbox"]');
+            const total = checkboxes.length;
+            const checked = Array.from(checkboxes).filter(cb => cb.checked).length;
+            const pct = total > 0 ? (checked / total) * 100 : 0;
+            document.getElementById('packingProgressText').textContent = checked + ' / ' + total + ' Artikel';
+            document.getElementById('packingProgressFill').style.width = pct + '%';
+        }
+
+        // Category Breakdown
+        function renderCategoryBreakdown() {
+            const card = document.getElementById('categoryCard');
+            const breakdown = document.getElementById('categoryBreakdown');
+            if (budget.expenses.length === 0) {
+                card.style.display = 'none';
+                return;
+            }
+            card.style.display = 'block';
+            const map = {};
+            budget.expenses.forEach(e => {
+                map[e.category] = (map[e.category] || 0) + e.amount;
+            });
+            const total = Object.values(map).reduce((a, b) => a + b, 0);
+            breakdown.innerHTML = Object.entries(map)
+                .sort((a, b) => b[1] - a[1])
+                .map(([cat, amount]) => {
+                    const pct = (amount / total) * 100;
+                    return `<div class="category-bar">
+                        <div class="category-bar-label">${cat}</div>
+                        <div class="category-bar-track">
+                            <div class="category-bar-fill" style="width:${pct}%"></div>
+                        </div>
+                        <div class="category-bar-amount">${amount.toFixed(2)}€</div>
+                    </div>`;
+                }).join('');
+        }
+
+        // Budget editing
+        function toggleBudgetEdit() {
+            const form = document.getElementById('budgetEditForm');
+            form.classList.toggle('show');
+            if (form.classList.contains('show')) {
+                document.getElementById('newBudgetAmount').value = budget.total;
+                document.getElementById('newBudgetAmount').focus();
+            }
+        }
+
+        function saveBudget() {
+            const val = parseFloat(document.getElementById('newBudgetAmount').value);
+            if (!val || val <= 0) {
+                showToast('Bitte ein gültiges Budget eingeben');
+                return;
+            }
+            budget.total = val;
+            saveData();
+            updateBudgetDisplay();
+            document.getElementById('budgetEditForm').classList.remove('show');
+            showToast('Budget auf ' + val + '€ gesetzt ✅');
+        }
+
         // Close modal when clicking outside
         document.getElementById('attractionModal').addEventListener('click', (e) => {
             if (e.target.id === 'attractionModal') {
